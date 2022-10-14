@@ -22,10 +22,8 @@ public class Listener implements View.OnClickListener {
             txtResultado.setText("Le has dado igual");
 
         }else{
-
             txtResultado.setText("");
         }
-
-
     }
+
 }

@@ -8,6 +8,8 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -15,12 +17,27 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button btnIgual= findViewById(R.id.btnIgual);
-        TableLayout tabla = findViewById(R.id.miTabla);
-        TextView txtRespuesta = findViewById(R.id.txtResultado);
+         ArrayList<String> sumaString= new ArrayList<>();
+        Button btn1 = findViewById(R.id.btn1);
+        TextView txtV = findViewById(R.id.txtNumeros);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sumaString.add(imprimir(btn1));
+                for (String cad:sumaString
+                     ) {
+                    txtV.setText(cad);
+                }
 
-        Listener l = new Listener(tabla, txtRespuesta);
-        tabla.setOnClickListener(l);
+            }
+        });
+    }
 
+    public String  imprimir(Button btn){
+        String cad="";
+
+        cad= (String) btn.getText();
+        return cad;
     }
 }
+
