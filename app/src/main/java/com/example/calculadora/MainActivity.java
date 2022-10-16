@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.GridLayout;
+import android.widget.RelativeLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
@@ -12,32 +14,84 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    public String sumatorioCadena="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+    }
 
-         ArrayList<String> sumaString= new ArrayList<>();
-        Button btn1 = findViewById(R.id.btn1);
+    //prueba manejador de eventos
+
+    public void controlarBotones(View v){
         TextView txtV = findViewById(R.id.txtNumeros);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sumaString.add(imprimir(btn1));
-                for (String cad:sumaString
-                     ) {
-                    txtV.setText(cad);
-                }
+        Button b = (Button) v;
+
+        if(b.getText().equals("=")){
+            txtV.setText(calcular(sumatorioCadena)+"");
+            sumatorioCadena="";
+        }else{
+            sumatorioCadena += b.getText();
+            txtV.setText(sumatorioCadena);
+        }
+    }
+
+    public int calcular(String operacion){
+
+        ArrayList<Character> listaNumeros = new ArrayList<Character>();
+        ArrayList<Character> listaOperadores = new ArrayList<>();
+        int resultado=0, index=0, indexOp=0;
+
+
+        for (Character caracter : operacion.toCharArray()) {
+
+            if(caracter >= 48 && caracter <=57){
+                index++;
+                listaNumeros.add(caracter);
+            }else
+                indexOp=index;
+                listaOperadores.add(caracter);
+        }
+
+        for(Character op: listaOperadores){
+
+            if(op.equals('+')){
+              resultado= sumar(listaNumeros, indexOp);
 
             }
-        });
+            if(op.equals('-')){
+                resultado= sumar(listaNumeros, indexOp);
+
+            }
+
+        }
+        return resultado;
     }
 
-    public String  imprimir(Button btn){
-        String cad="";
+    public int sumar(ArrayList<Character> numeros, int indOp){
 
-        cad= (String) btn.getText();
-        return cad;
+        String numero1="";
+        String numero2="";
+        int resultado = 0;
+
+        for(int i = 0; i<indOp; i++){
+            numero1+=numeros.get(i);
+        }
+        for(int i = indOp; i<numeros.size(); i++){
+            numero2+=numeros.get(i);
+        }
+        Integer n1= Integer.parseInt(numero1);
+        Integer n2 = Integer.parseInt(numero2);
+        resultado = n1+n2;
+
+        Character a = (char) resultado;
+        return resultado;
     }
+
+    public int restar(){
+
+        return 0;
+    }
+
 }
 
