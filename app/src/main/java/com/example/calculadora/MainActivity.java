@@ -28,7 +28,8 @@ public class MainActivity extends AppCompatActivity {
         Button b = (Button) v;
 
         if(b.getText().equals("=")){
-            txtV.setText(calcular(sumatorioCadena)+"");
+            int resultado = calcular(sumatorioCadena);
+            txtV.setText(resultado+"");
             sumatorioCadena="";
         }else{
             sumatorioCadena += b.getText();
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         ArrayList<Character> listaNumeros = new ArrayList<Character>();
         ArrayList<Character> listaOperadores = new ArrayList<>();
+        ArrayList<Integer> indicesOperaciones= new ArrayList<>();
         int resultado=0, index=0, indexOp=0;
 
 
@@ -48,21 +50,35 @@ public class MainActivity extends AppCompatActivity {
             if(caracter >= 48 && caracter <=57){
                 index++;
                 listaNumeros.add(caracter);
-            }else
+            }else{
                 indexOp=index;
+                indicesOperaciones.add(index);
                 listaOperadores.add(caracter);
+            }
+
         }
 
+        int indexO=0;
         for(Character op: listaOperadores){
 
             if(op.equals('+')){
-              resultado= sumar(listaNumeros, indexOp);
+              resultado= sumar(listaNumeros, indicesOperaciones.get(indexO));
+              indexO++;
+            }
+            else if(op.equals('-')){
+                if(resultado==0) resultado= restar(listaNumeros, indicesOperaciones.get(indexO));
+                else{
+                   resultado= restar(resultado, listaNumeros,5);
+                }
+            }
+            else if(op.equals('X')){
+                if(resultado==0) resultado= mult(listaNumeros, indexOp);
 
             }
-            if(op.equals('-')){
-                resultado= sumar(listaNumeros, indexOp);
-
+            else if(op.equals('/')){
+                if(resultado==0) resultado= div(listaNumeros, indexOp);
             }
+            indexO++;
 
         }
         return resultado;
@@ -88,10 +104,78 @@ public class MainActivity extends AppCompatActivity {
         return resultado;
     }
 
-    public int restar(){
+    public int restar(ArrayList<Character> numeros, int indOp){
 
-        return 0;
+        String numero1="";
+        String numero2="";
+        int resultado = 0;
+
+        for(int i = 0; i<indOp; i++){
+            numero1+=numeros.get(i);
+        }
+        for(int i = indOp; i<numeros.size(); i++){
+            numero2+=numeros.get(i);
+        }
+        Integer n1= Integer.parseInt(numero1);
+        Integer n2 = Integer.parseInt(numero2);
+        resultado = n1-n2;
+
+        Character a = (char) resultado;
+        return resultado;
     }
+    public int restar(int resul,ArrayList<Character> numeros, int indOp ){
+
+        int resultado=0;
+
+        String numero2="";
+        for(int i = indOp; i<numeros.size(); i++){
+            numero2+=numeros.get(i);
+        }
+        Integer numeroRestar= Integer.parseInt(numero2);
+        resultado= resul- numeroRestar;
+        return resultado;
+    }
+    public int mult(ArrayList<Character> numeros, int indOp){
+
+        String numero1="";
+        String numero2="";
+        int resultado = 0;
+
+        for(int i = 0; i<indOp; i++){
+            numero1+=numeros.get(i);
+        }
+        for(int i = indOp; i<numeros.size(); i++){
+            numero2+=numeros.get(i);
+        }
+        Integer n1= Integer.parseInt(numero1);
+        Integer n2 = Integer.parseInt(numero2);
+        resultado = n1*n2;
+
+        Character a = (char) resultado;
+        return resultado;
+    }
+    public int div(ArrayList<Character> numeros, int indOp){
+
+        String numero1="";
+        String numero2="";
+        int resultado = 0;
+
+        for(int i = 0; i<indOp; i++){
+            numero1+=numeros.get(i);
+        }
+        for(int i = indOp; i<numeros.size(); i++){
+            numero2+=numeros.get(i);
+        }
+        Integer n1= Integer.parseInt(numero1);
+        Integer n2 = Integer.parseInt(numero2);
+        resultado = n1/n2;
+
+        Character a = (char) resultado;
+        return resultado;
+    }
+
+
+
 
 }
 
