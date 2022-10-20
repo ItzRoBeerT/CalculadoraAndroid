@@ -22,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    //prueba manejador de eventos
-
     public void controlarBotones(View v){
         TextView txtV = findViewById(R.id.txtNumeros);
         Button b = (Button) v;
@@ -60,9 +58,13 @@ public class MainActivity extends AppCompatActivity {
             txtV.setText("");
         }
         else if(b.getText().equals("=")){
-             resultado = eval(sumatorioCadena);
-            txtV.setText(resultado+"");
-            sumatorioCadena="";
+            if(txtV.getText().equals("")){
+                txtV.setText("");
+            }else{
+                resultado = eval(sumatorioCadena);
+                txtV.setText(resultado+"");
+                sumatorioCadena="";
+            }
         }else{
             sumatorioCadena += b.getText();
             txtV.setText(sumatorioCadena);
